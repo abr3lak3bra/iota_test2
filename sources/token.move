@@ -26,8 +26,20 @@ module iota_test::testi_token {
         claimed: Table<address, bool>
     }
 
+    public fun maximum_supply(): u64 {
+        MAX_SUPPLY
+    }
+
     public fun total_supply(tracker: &ClaimTracker): u64 {
         coin::total_supply(&tracker.treasury_cap)
+    }
+
+    public fun remaining_supply(tracker: &ClaimTracker): u64 {
+        MAX_SUPPLY - total_supply(tracker)
+    }
+
+    public fun total_claimed(tracker: &ClaimTracker): u64 {
+        table::length(&tracker.claimed)
     }
 
     fun init(w: TESTI_TOKEN, ctx: &mut TxContext) {
