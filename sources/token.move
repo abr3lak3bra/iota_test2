@@ -81,6 +81,7 @@ module iota_test::testi_token {
         );
 
         event::emit(TestEventMint { total_supply: total_supply(tracker)  });
+        event::emit(TestEventTransfer { from: @iota_test, to: ctx.sender(), amount: amount });
     }
 
     public fun claim(tracker: &mut ClaimTracker, ctx: &mut TxContext) {
@@ -89,8 +90,6 @@ module iota_test::testi_token {
         table::add(&mut tracker.claimed, ctx.sender(), true);
 
         mint(tracker, CLAIMABLE, ctx);
-
-        event::emit(TestEventTransfer { from: @iota_test, to: ctx.sender(), amount: CLAIMABLE });
     }
 
     #[test]
